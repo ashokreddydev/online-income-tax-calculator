@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Income Tax Calculator for 2025-26. Calculate your tax based on new income tax slabs with standard deduction and more. Free online tax calculation tool.">
+    <meta name="keywords" content="Income Tax Calculator, Income Tax Slabs, Tax Calculation, 2025-26 Tax Slabs, Indian Income Tax, Income Tax Calculator for salaried, Free Online Tax Calculator">
+    <meta name="author" content="Ashok Reddy Penamalli">
+    <meta name="robots" content="index, follow">
+    <title>Income Tax Calculator 2025-26 - Online Tax Calculation Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result p {
+            font-size: 16px;
+            color: #333;
+        }
+        .result .tax-details {
+            margin-top: 10px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .result .tax-details div {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Income Tax Calculator 2025-26</h1>
+    <label for="income">Enter Annual Income (₹):</label>
+    <input type="number" id="income" placeholder="Enter your total income" required>
+
+    <button onclick="calculateTax()">Calculate Tax</button>
+
+    <div class="result" id="result">
+        <!-- Result will be displayed here -->
+    </div>
+</div>
+
+<script>
+    function calculateTax() {
+        var income = parseFloat(document.getElementById("income").value);
+        var tax = 0;
+        var details = '';
+
+        if (isNaN(income) || income <= 0) {
+            document.getElementById("result").innerHTML = "Please enter a valid income.";
+            return;
+        }
+
+        // Apply standard deduction of ₹75,000
+        var standardDeduction = 75000;
+        var taxableIncome = income - standardDeduction;
+
+        if (taxableIncome <= 400000) {
+            tax = 0; // No tax for income up to ₹ 4 Lakh
+            details += "<div>No tax for income up to ₹ 4 Lakh.</div>";
+        } else {
+            if (taxableIncome > 400000) {
+                var slab1Tax = Math.min(taxableIncome, 800000) - 400000;
+                tax += slab1Tax * 0.05;
+                details += `<div>Tax for ₹${slab1Tax} in ₹4L-8L slab: ₹${slab1Tax * 0.05}</div>`;
+            }
+            if (taxableIncome > 800000) {
+                var slab2Tax = Math.min(taxableIncome, 1200000) - 800000;
+                tax += slab2Tax * 0.10;
+                details += `<div>Tax for ₹${slab2Tax} in ₹8L-12L slab: ₹${slab2Tax * 0.10}</div>`;
+            }
+            if (taxableIncome > 1200000) {
+                var slab3Tax = Math.min(taxableIncome, 1600000) - 1200000;
+                tax += slab3Tax * 0.15;
+                details += `<div>Tax for ₹${slab3Tax} in ₹12L-16L slab: ₹${slab3Tax * 0.15}</div>`;
+            }
+            if (taxableIncome > 1600000) {
+                var slab4Tax = Math.min(taxableIncome, 2000000) - 1600000;
+                tax += slab4Tax * 0.20;
+                details += `<div>Tax for ₹${slab4Tax} in ₹16L-20L slab: ₹${slab4Tax * 0.20}</div>`;
+            }
+            if (taxableIncome > 2000000) {
+                var slab5Tax = Math.min(taxableIncome, 2400000) - 2000000;
+                tax += slab5Tax * 0.25;
+                details += `<div>Tax for ₹${slab5Tax} in ₹20L-24L slab: ₹${slab5Tax * 0.25}</div>`;
+            }
+            if (taxableIncome > 2400000) {
+                var slab6Tax = taxableIncome - 2400000;
+                tax += slab6Tax * 0.30;
+                details += `<div>Tax for ₹${slab6Tax} in above ₹24L slab: ₹${slab6Tax * 0.30}</div>`;
+            }
+        }
+
+        // Display the result and breakdown
+        document.getElementById("result").innerHTML = `
+            <p><strong>Total Income:</strong> ₹${income}</p>
+            <p><strong>Standard Deduction:</strong> ₹${standardDeduction}</p>
+            <p><strong>Taxable Income:</strong> ₹${taxableIncome}</p>
+            <div class="tax-details">${details}</div>
+            <p><strong>Total Tax Payable:</strong> ₹${tax.toFixed(2)}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
